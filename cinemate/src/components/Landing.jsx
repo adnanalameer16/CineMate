@@ -1,12 +1,19 @@
 import './Landing.css';
+import { useNavigate } from 'react-router-dom';
 
 function Landing() {
+  const navigate = useNavigate();
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
   return (
     <div className="landing">
       <div className='main'>
         <div>CINEMATE</div>
         <div>YOUR DAILY DOSE OF CINEMA</div>
-        <button>Login</button>
+        <button onClick={handleLoginClick}>Login</button>
       </div>
 
       <div className="features">
