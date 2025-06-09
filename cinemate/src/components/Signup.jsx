@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Signup() {
   const navigate = useNavigate();
+  const handleSignupClick= () =>{
+    navigate('/main');
+  };
 
   return (
     <div className="login-container">
@@ -18,7 +21,7 @@ function Signup() {
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input type="password" id="confirmPassword" placeholder="Confirm your password" required />
 
-        <button type="submit">Sign Up</button>
+        <button onClick={handleSignupClick} type="submit">Sign Up</button>
       </form>
       <p className="signup-link">
         Already have an account? <a onClick={() => navigate('/login')}>Login here</a>

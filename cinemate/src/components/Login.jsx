@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 
 function Login() {
     const navigate = useNavigate();
+    const handleLoginClick = () => {
+    navigate('/main');
+  };
 
   return (
     <div className="login-container">
@@ -15,7 +18,7 @@ function Login() {
         <label htmlFor="password">Password</label>
         <input type="password" id="password" placeholder="Enter your password" required />
 
-        <button type="submit">Login</button>
+        <button  onClick={handleLoginClick} type="submit">Login</button>
       </form>
       <p className="signup-link">
         Don't have an account? <a onClick={() => navigate('/signup')}>Create one</a>

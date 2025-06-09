@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './components/Landing.jsx';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
+import Main from './components/Main.jsx';
+import Watchlist from './components/Watchlist.jsx';
+
 function App() {
   return (
     <Router>
@@ -10,6 +13,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/main" element={<Main />} />
+        <Route path="/watchlist" element={<Watchlist />} />
       </Routes>
     </Router>
   );
