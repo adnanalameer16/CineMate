@@ -1,0 +1,113 @@
+:root {
+  --primary-accent: #FB4D4E; /* red */
+  --secondary-accent: #A33B3C; /* deeper red */
+  --cta-hover: #D23B3C; /* darker red for hover */
+  --text-color: #2B2B2B; /* dark text for cream background */
+  --background-color: #FAF3E0; /* cream/off-white */
+  --feature-bg: #F1E7DC; /* lighter cream for feature boxes */
+}
+
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.landing {
+  height: 98vh;
+  width: 98vw;
+  background-color: var(--background-color);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+  gap: 1rem;
+}
+
+.main div:first-child {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  letter-spacing: 2px;
+  font-weight: bold;
+  color: #b22d3e;
+}
+
+.main div:nth-child(2) {
+  font-family: 'Cinzel', serif;
+  font-size: 1.4rem;
+  color: var(--secondary-accent);
+}
+
+.main button {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: #b22d3e;
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out, background-color 0.3s;
+}
+
+.main button:hover {
+  transform: scale(1.2);
+  background-color: var(--cta-hover);
+  color: white;
+}
+
+.features {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2rem;
+  padding: 2rem;
+  flex-wrap: wrap;
+}
+
+.feature-box {
+  background-color: var(--feature-bg);
+  color:#b22d3e;
+  width: 200px;
+  height: 100px;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  transform: scale(1);
+  border: 2px solid;
+}
+
+.feature-box:hover {
+  height: 110px;
+  transform: scale(1.2);
+  z-index: 1;
+}
+
+.feature-title {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color:#b22d3e;
+}
+
+.feature-desc {
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.feature-box:hover .feature-desc {
+  opacity: 1;
+}
