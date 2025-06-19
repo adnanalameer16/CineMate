@@ -92,3 +92,10 @@
 a{
     cursor: pointer;
 }
+
+.error-message {
+  color: #ff4d4f;  
+  background-color: #fff1f0;  
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
