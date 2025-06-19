@@ -15,7 +15,7 @@ function Login() {
     setError(''); // clear previous error
 
     try {
-      await signInWithEmailAndPassword(auth, username, password);
+      await signInWithEmailAndPassword(auth, email, password);
       navigate('/main');
     } catch (err) {
   console.error('Firebase Auth Error:', err.code);
@@ -43,7 +43,7 @@ function Login() {
       <h2>Login to Cinemate</h2>
       <form className="login-form" onSubmit={handleLogin}>
         <label htmlFor="email">Username</label>
-        <input type="text" id="username" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}required />
+        <input type="email" id="username" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}required />
 
         <label htmlFor="password">Password</label>
         <input type="password" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}required />
