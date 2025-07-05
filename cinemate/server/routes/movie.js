@@ -4,52 +4,48 @@ const axios = require('axios');
 const router = express.Router();
 require('dotenv').config();
 
-const API_KEY = process.env.TMDB_API_KEY;
 
-router.get('/', async (req, res) => {
-  const { title } = req.query;
-  if (!title) return res.status(400).json({ error: 'Title is required' });
-
+// GET /api/movie/next
+router.get('/next', async (req, res) => {
   try {
-    // Step 1: Search for the movie
-    const searchRes = await axios.get(`https://api.themoviedb.org/3/search/movie`, {
+    // Get TMDB popular or trending movies
+    const trending = await axios.get('https://api.themoviedb.org/3/trending/movie/day', {
       params: {
-        api_key: API_KEY,
-        query: title
+        api_key: process.env.TMDB_API_KEY,
+        language: 'en-US',
       }
     });
 
-    if (searchRes.data.results.length === 0)
-      return res.status(404).json({ error: 'Movie not found' });
+    const results = trending.data.results;
+    if (!results.length) return res.status(404).json({ error: 'No movies found' });
 
-    const movie = searchRes.data.results[0];
+    // Pick a random movie
+    const randomMovie = results[Math.floor(Math.random() * results.length)];
 
-    // Step 2: Get movie details and credits
-    const detailsRes = await axios.get(`https://api.themoviedb.org/3/movie/${movie.id}`, {
+    // Get full movie details
+    const detailRes = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}`, {
       params: {
-        api_key: API_KEY,
+        api_key: process.env.TMDB_API_KEY,
         append_to_response: 'credits'
       }
     });
 
-    const details = detailsRes.data;
-    const director = details.credits.crew.find(p => p.job === 'Director')?.name || 'N/A';
-    const cast = details.credits.cast.slice(0, 5).map(actor => actor.name).join(', ');
-    const genre = details.genres.map(g => g.name).join(', ');
+    const details = detailRes.data;
+    const cast = details.credits.cast.slice(0, 5).map((a) => a.name).join(', ');
+    const director = details.credits.crew.find((c) => c.job === 'Director')?.name || 'Unknown';
 
-    // Format response to match OMDb-style keys
     res.json({
-      Title: details.title,
-      Poster: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
-      imdbRating: details.vote_average,
-      Plot: details.overview,
-      Director: director,
-      Actors: cast,
-      Genre: genre
+      title: details.title,
+      poster: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
+      rating: details.vote_average,
+      description: details.overview,
+      cast,
+      director,
+      genre: details.genres.map((g) => g.name).join(', ')
     });
-  } catch (error) {
-    console.error('TMDB error:', error.message);
-    res.status(500).json({ error: 'Failed to fetch movie data' });
+  } catch (err) {
+    console.error('TMDB fetch error:', err.message);
+    res.status(500).json({ error: 'Failed to fetch random movie' });
   }
 });
 
