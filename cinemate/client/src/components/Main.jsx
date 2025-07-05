@@ -9,18 +9,30 @@ function Main() {
       navigate('/watchlist');
     };
     useEffect(() => {
-    const fetchMovie = async () => {
-      try {
-        const res = await fetch('http://localhost:5000/movie?title=Inception');
-        const data = await res.json();
-        setMovie(data);
-      } catch (err) {
-        console.error('Failed to fetch movie data', err);
-      }
-    };
-
-    fetchMovie();
+    fetchRandomMovie();
   }, []);
+  const fetchRandomMovie = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/movie/next');
+      const data = await res.json();
+      setMovie(data);
+    } catch (err) {
+      console.error('Error fetching random movie', err);
+    }
+  };
+  const handleLike = () => {
+    fetchRandomMovie();
+  };
+
+  const handleDislike = () => {
+    fetchRandomMovie();
+  };
+
+  const handleNotSeen = () => {
+    fetchRandomMovie(); // for now, no popup or save
+  };
+
+
   if (!movie) return <div>Loading movie...</div>;
   return (
     <div className="main-page">
@@ -33,23 +45,23 @@ function Main() {
       </div>
 
       <div className="movie-box">
-        <div className="movie-title">🎬 {movie.Title}</div>
+        <div className="movie-title">🎬 {movie.title}</div>
         <div className='movie-box-components'>
           <div className ="movie-box-left">
             
-            <img src={movie.Poster} alt="Movie Poster" className="movie-poster" />
+            <img src={movie.poster} alt="Movie Poster" className="movie-poster" />
 
           </div>
           <div className="movie-box-right">
-            <p className="movie-plot">{movie.Plot}</p>
-            <div className="movie-rating">⭐ IMDb Rating: {movie.imdbRating}</div>
-            <div className="movie-info">Director: {movie.Director}</div>
-            <div className='movie-info'>Cast: {movie.Actors}</div>
-            <div className='movie-info'>Genre: {movie.Genre}</div>
+            <p className="movie-plot">{movie.description}</p>
+            <div className="movie-rating">⭐ IMDb Rating: {movie.rating}</div>
+            <div className="movie-info">Director: {movie.director}</div>
+            <div className='movie-info'>Cast: {movie.cast}</div>
+            <div className='movie-info'>Genre: {movie.genre}</div>
             <div className="action-buttons">
-              <button className="like">❤️ Like</button>
-              <button className="not-seen">❌ Haven’t Seen</button>
-              <button className="dislike">💔 Dislike</button>
+              <button className="like" onClick={handleLike}>❤️ Like</button>
+              <button className="not-seen" onClick={handleNotSeen}>❌ Haven’t Seen</button>
+              <button className="dislike" onClick={handleDislike}>💔 Dislike</button>
             </div>
           </div>
           
