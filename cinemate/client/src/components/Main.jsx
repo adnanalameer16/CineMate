@@ -1,8 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import './Main.css';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+
 
 function Main() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const uid = user?.uid;
   const navigate = useNavigate();
   const [movie,setMovie]=useState(null);
   const [showDialog,setShowDialog]=useState(false);
@@ -26,17 +31,48 @@ function Main() {
   };
 
   const handleLike = () => {
+    sendMovieAction('liked');
     fetchRandomMovie();
   };
 
   const handleDislike = () => {
+    sendMovieAction('disliked');
     fetchRandomMovie();
   };
 
   const handleNotSeen = () => {
     setShowDialog(true);
+
   };
 
+  const sendMovieAction = async (actionType) => {
+  if (!uid || !movie) return;
+
+  const payload = {
+    uid,
+    tmdb_id: movie.id, // make sure TMDB ID is available
+    title: movie.title,
+    poster: movie.poster,
+    cast_list: movie.cast,
+    director: movie.director,
+    genre: movie.genre,
+    action: actionType
+  };
+
+  try {
+    const res = await fetch('http://localhost:5000/user/add-action', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    if (!res.ok) throw new Error('Failed to send movie action');
+
+    console.log('Action recorded:', actionType);
+  } catch (err) {
+    console.error('Error recording action:', err);
+  }
+  };
 
   if (!movie) return <div>Loading movie...</div>;
   return (
@@ -76,7 +112,7 @@ function Main() {
                 <p>Do you want to add this movie to your watchlist?</p>
                 <div className="dialog-buttons">
                   <button onClick={() => {
-                    console.log("Movie will be added to watchlist later...");
+                    sendMovieAction('watchlist');
                     setShowDialog(false);
                     fetchRandomMovie();
                   }}>Yes</button>

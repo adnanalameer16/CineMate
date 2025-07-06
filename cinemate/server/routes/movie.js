@@ -35,6 +35,7 @@ router.get('/next', async (req, res) => {
     const director = details.credits.crew.find((c) => c.job === 'Director')?.name || 'Unknown';
 
     res.json({
+      id: details.id,
       title: details.title,
       poster: `https://image.tmdb.org/t/p/w500${details.poster_path}`,
       rating: details.vote_average,
