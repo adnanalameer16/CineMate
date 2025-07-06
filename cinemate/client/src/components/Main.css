@@ -17,7 +17,7 @@
 }
 
 .recommend-btn,
-.watchlist-btn {
+.watchlist-btn ,.profile-btn{
   padding: 0.8rem 1.4rem;
   font-size: 1rem;
   font-weight: bold;
@@ -30,7 +30,8 @@
 }
 
 .recommend-btn:hover,
-.watchlist-btn:hover {
+.watchlist-btn:hover,
+.profile-btn:hover{
   background-color: #b22d3e;
   color: white;
 }

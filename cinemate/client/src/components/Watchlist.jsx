@@ -1,26 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Watchlist.css';
+import { getAuth } from 'firebase/auth';
 
 function Watchlist() {
-  return (
-    <div className="watchlist-container">
-      <h1>Your Watchlist 🎥</h1>
-      
-      <div className="watchlist">
-        <div className="watchlist-item">
-          <h3>Movie Title</h3>
-          <p><strong>Genre:</strong> Genre Name</p>
-          <p><strong>IMDb Rating:</strong> Rating</p>
-        </div>
+  const [movies, setMovies] = useState([]);
+  const auth = getAuth();
+  const uid = auth.currentUser?.uid;
 
-        <div className="watchlist-item">
-          <h3>Another Movie</h3>
-          <p><strong>Genre:</strong> Genre Name</p>
-          <p><strong>IMDb Rating:</strong> Rating</p>
+  useEffect(() => {
+    const fetchWatchlist = async () => {
+      try {
+        const res = await fetch(`http://localhost:5000/user/watchlist?uid=${uid}`);
+        const data = await res.json();
+        setMovies(data);
+      } catch (err) {
+        console.error('Failed to fetch watchlist', err);
+      }
+    };
+
+    if (uid) fetchWatchlist();
+  }, [uid]);
+
+  return (
+    <div className="watchlist-grid">
+      {movies.map((movie) => (
+        <div key={movie.tmdb_id} className="movie-card">
+          <img src={movie.poster} alt={movie.title} />
+          <div className="movie-overlay">
+            <h3>{movie.title}</h3>
+            <p><b>Director:</b> {movie.director}</p>
+            <p><b>Cast:</b> {movie.cast_list}</p>
+            <p><b>Genre:</b> {movie.genre}</p>
+          </div>
         </div>
-        
-        {/* Add more <div className="watchlist-item"> as needed */}
-      </div>
+      ))}
     </div>
   );
 }

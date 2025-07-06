@@ -15,6 +15,10 @@ function Main() {
   const handleWatchClick= () =>{
     navigate('/watchlist');
   };
+  const handleProfileClick= () =>{
+    navigate('/profile');
+  };
+
 
   useEffect(() => {
     fetchRandomMovie();
@@ -80,6 +84,7 @@ function Main() {
       <div className="top-buttons">
         <button className="recommend-btn">Want a Recommendation?</button>
         <button className="watchlist-btn" onClick={handleWatchClick}>Watchlist</button>
+        <button className="profile-btn" onClick={handleProfileClick}>Profile</button>
       </div>
 
       <div className="movie-box">
