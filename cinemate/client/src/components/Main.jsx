@@ -5,12 +5,16 @@ import { useNavigate } from 'react-router-dom';
 function Main() {
   const navigate = useNavigate();
   const [movie,setMovie]=useState(null);
-    const handleWatchClick= () =>{
-      navigate('/watchlist');
-    };
-    useEffect(() => {
+  const [showDialog,setShowDialog]=useState(false);
+
+  const handleWatchClick= () =>{
+    navigate('/watchlist');
+  };
+
+  useEffect(() => {
     fetchRandomMovie();
   }, []);
+
   const fetchRandomMovie = async () => {
     try {
       const res = await fetch('http://localhost:5000/movie/next');
@@ -20,6 +24,7 @@ function Main() {
       console.error('Error fetching random movie', err);
     }
   };
+
   const handleLike = () => {
     fetchRandomMovie();
   };
@@ -29,7 +34,7 @@ function Main() {
   };
 
   const handleNotSeen = () => {
-    fetchRandomMovie(); // for now, no popup or save
+    setShowDialog(true);
   };
 
 
@@ -38,10 +43,7 @@ function Main() {
     <div className="main-page">
       <div className="top-buttons">
         <button className="recommend-btn">Want a Recommendation?</button>
-        <button className="watchlist-btn" onClick={handleWatchClick}>
-          ➕ Add to Watchlist
-        </button>
-
+        <button className="watchlist-btn" onClick={handleWatchClick}>Watchlist</button>
       </div>
 
       <div className="movie-box">
@@ -68,9 +70,27 @@ function Main() {
         </div>
         
       </div>
-        
+          {showDialog && (
+            <div className="dialog-backdrop">
+              <div className="dialog-box">
+                <p>Do you want to add this movie to your watchlist?</p>
+                <div className="dialog-buttons">
+                  <button onClick={() => {
+                    console.log("Movie will be added to watchlist later...");
+                    setShowDialog(false);
+                    fetchRandomMovie();
+                  }}>Yes</button>
+                  <button onClick={() => {
+                    setShowDialog(false);
+                    fetchRandomMovie();
+                  }}>No</button>
+                </div>
+              </div>
+            </div>
+          )}
     
     </div>
+
   );
 }
 
