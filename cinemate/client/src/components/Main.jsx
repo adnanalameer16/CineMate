@@ -18,6 +18,9 @@ function Main() {
   const handleProfileClick= () =>{
     navigate('/profile');
   };
+  const handleStatsClick= () =>{
+    navigate('/stats');
+  };
 
 
   useEffect(() => {
@@ -85,6 +88,7 @@ function Main() {
         <button className="recommend-btn">Want a Recommendation?</button>
         <button className="watchlist-btn" onClick={handleWatchClick}>Watchlist</button>
         <button className="profile-btn" onClick={handleProfileClick}>Profile</button>
+        <button className="stats-btn" onClick={handleStatsClick}>Stats</button>
       </div>
 
       <div className="movie-box">

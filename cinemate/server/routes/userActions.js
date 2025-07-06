@@ -80,5 +80,39 @@ router.get('/disliked', async (req, res) => {
   }
 });
 
+// GET /user/stats?uid=abc123
+router.get('/stats', async (req, res) => {
+  const { uid } = req.query;
+  if (!uid) return res.status(400).json({ error: 'UID is required' });
+
+  try {
+    const client = await pool.connect();
+
+    const [likedRes, dislikedRes, watchlistRes, firstLikedRes, lastLikedRes] = await Promise.all([
+      client.query(`SELECT COUNT(*) FROM user_movie_actions WHERE uid = $1 AND action = 'liked'`, [uid]),
+      client.query(`SELECT COUNT(*) FROM user_movie_actions WHERE uid = $1 AND action = 'disliked'`, [uid]),
+      client.query(`SELECT COUNT(*) FROM user_movie_actions WHERE uid = $1 AND action = 'watchlist'`, [uid]),
+      client.query(`SELECT title, timestamp FROM user_movie_actions WHERE uid = $1 AND action = 'liked' ORDER BY timestamp ASC LIMIT 1`, [uid]),
+      client.query(`SELECT title, timestamp FROM user_movie_actions WHERE uid = $1 AND action = 'liked' ORDER BY timestamp DESC LIMIT 1`, [uid])
+    ]);
+
+    client.release();
+
+    res.json({
+      total_liked: parseInt(likedRes.rows[0].count),
+      total_disliked: parseInt(dislikedRes.rows[0].count),
+      total_watchlist: parseInt(watchlistRes.rows[0].count),
+      total_watched: parseInt(likedRes.rows[0].count) + parseInt(dislikedRes.rows[0].count),
+      first_liked: firstLikedRes.rows[0] || null,
+      last_liked: lastLikedRes.rows[0] || null
+    });
+
+  } catch (err) {
+    console.error('Error fetching stats:', err);
+    res.status(500).json({ error: 'Failed to fetch stats' });
+  }
+});
+
+
 
 module.exports = router;

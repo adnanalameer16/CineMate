@@ -6,6 +6,9 @@ import Signup from './components/Signup.jsx';
 import Main from './components/Main.jsx';
 import Watchlist from './components/Watchlist.jsx';
 import Profile from './components/Profile';
+import Stats from './components/Stats';
+
+
 
 function App() {
   return (
@@ -17,6 +20,7 @@ function App() {
         <Route path="/main" element={<Main />} />
         <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/stats" element={<Stats />} />
       </Routes>
     </Router>
   );
