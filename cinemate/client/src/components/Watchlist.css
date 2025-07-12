@@ -41,3 +41,19 @@
 .movie-card:hover .movie-overlay {
   opacity: 1;
 }
+
+.remove-btn {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.remove-btn:hover {
+  background-color: #c0392b;
+}

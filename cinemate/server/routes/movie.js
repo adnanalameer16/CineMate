@@ -1,28 +1,33 @@
-// server/routes/movie.js
 const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 require('dotenv').config();
 
-
-// GET /api/movie/next
 router.get('/next', async (req, res) => {
   try {
-    // Get TMDB popular or trending movies
-    const trending = await axios.get('https://api.themoviedb.org/3/trending/movie/day', {
-      params: {
-        api_key: process.env.TMDB_API_KEY,
-        language: 'en-US',
-      }
-    });
+    // 1. Fetch a bigger pool of popular movies (e.g. first 5 pages = 100 movies)
+    const allMovies = [];
+    for (let page = 1; page <= 5; page++) {
+      const popular = await axios.get('https://api.themoviedb.org/3/discover/movie', {
+        params: {
+          api_key: process.env.TMDB_API_KEY,
+          sort_by: 'popularity.desc',
+          language: 'en-US',
+          include_adult: false,
+          include_video: false,
+          page
+        }
+      });
 
-    const results = trending.data.results;
-    if (!results.length) return res.status(404).json({ error: 'No movies found' });
+      allMovies.push(...popular.data.results);
+    }
 
-    // Pick a random movie
-    const randomMovie = results[Math.floor(Math.random() * results.length)];
+    if (!allMovies.length) return res.status(404).json({ error: 'No movies found' });
 
-    // Get full movie details
+    // 2. Pick a random movie
+    const randomMovie = allMovies[Math.floor(Math.random() * allMovies.length)];
+
+    // 3. Get detailed info for the selected movie
     const detailRes = await axios.get(`https://api.themoviedb.org/3/movie/${randomMovie.id}`, {
       params: {
         api_key: process.env.TMDB_API_KEY,
@@ -31,6 +36,7 @@ router.get('/next', async (req, res) => {
     });
 
     const details = detailRes.data;
+
     const cast = details.credits.cast.slice(0, 5).map((a) => a.name).join(', ');
     const director = details.credits.crew.find((c) => c.job === 'Director')?.name || 'Unknown';
 
@@ -42,8 +48,11 @@ router.get('/next', async (req, res) => {
       description: details.overview,
       cast,
       director,
-      genre: details.genres.map((g) => g.name).join(', ')
+      genre: details.genres.map((g) => g.name).join(', '),
+      release_date: details.release_date,
+      language: details.original_language
     });
+
   } catch (err) {
     console.error('TMDB fetch error:', err.message);
     res.status(500).json({ error: 'Failed to fetch random movie' });

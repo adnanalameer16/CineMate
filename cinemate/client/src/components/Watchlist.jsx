@@ -7,6 +7,26 @@ function Watchlist() {
   const auth = getAuth();
   const uid = auth.currentUser?.uid;
 
+  const handleRemove = async (tmdb_id) => {
+  try {
+    const res = await fetch('http://localhost:5000/user/watchlist', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ uid, tmdb_id })
+    });
+
+    const data = await res.json();
+    if (data.success) {
+      setMovies(prev => prev.filter(movie => movie.tmdb_id !== tmdb_id));
+    }
+  } catch (err) {
+    console.error('Failed to remove from watchlist', err);
+  }
+};
+
+
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
@@ -24,6 +44,7 @@ function Watchlist() {
   return (
     <div className="watchlist-grid">
       {movies.map((movie) => (
+      <div>
         <div key={movie.tmdb_id} className="movie-card">
           <img src={movie.poster} alt={movie.title} />
           <div className="movie-overlay">
@@ -33,6 +54,8 @@ function Watchlist() {
             <p><b>Genre:</b> {movie.genre}</p>
           </div>
         </div>
+      <button className="remove-btn" onClick={() => handleRemove(movie.tmdb_id)}>🗑 Remove</button>
+      </div> 
       ))}
     </div>
   );

@@ -7,6 +7,7 @@ import Main from './components/Main.jsx';
 import Watchlist from './components/Watchlist.jsx';
 import Profile from './components/Profile';
 import Stats from './components/Stats';
+import RecommendationPage from './components/Recommendation.jsx';
 
 
 
@@ -21,6 +22,8 @@ function App() {
         <Route path="/watchlist" element={<Watchlist />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/recommend/:uid/:source" element={<RecommendationPage />} />
+
       </Routes>
     </Router>
   );

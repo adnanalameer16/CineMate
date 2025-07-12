@@ -3,7 +3,19 @@ const router = express.Router();
 const pool = require('../db');
 
 router.post('/add-action', async (req, res) => {
-  const { uid, tmdb_id, title, poster, cast_list, director, genre, action } = req.body;
+  const {
+    uid,
+    tmdb_id,
+    title,
+    poster,
+    cast_list,
+    director,
+    genre,
+    action,
+    release_date,
+    rating,
+    language
+  } = req.body;
 
   if (!uid || !tmdb_id || !action) {
     return res.status(400).json({ error: 'Missing required fields' });
@@ -11,11 +23,18 @@ router.post('/add-action', async (req, res) => {
 
   try {
     const query = `
-      INSERT INTO user_movie_actions (uid, tmdb_id, title, poster, cast_list, director, genre, action)
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+      INSERT INTO user_movie_actions (
+        uid, tmdb_id, title, poster, cast_list, director, genre, action,
+        release_date, rating, language
+      )
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       ON CONFLICT (uid, tmdb_id, action) DO NOTHING
     `;
-    const values = [uid, tmdb_id, title, poster, cast_list, director, genre, action];
+    const values = [
+      uid, tmdb_id, title, poster, cast_list, director, genre, action,
+      release_date, rating, language
+    ];
+
     await pool.query(query, values);
     res.status(200).json({ message: 'Movie action recorded' });
   } catch (err) {
@@ -110,6 +129,22 @@ router.get('/stats', async (req, res) => {
   } catch (err) {
     console.error('Error fetching stats:', err);
     res.status(500).json({ error: 'Failed to fetch stats' });
+  }
+});
+// DELETE /user/watchlist
+router.delete('/watchlist', async (req, res) => {
+  const { uid, tmdb_id } = req.body;
+  if (!uid || !tmdb_id) return res.status(400).json({ error: 'uid and tmdb_id are required' });
+
+  try {
+    await pool.query(
+      `DELETE FROM user_movie_actions WHERE uid = $1 AND tmdb_id = $2 AND action = 'watchlist'`,
+      [uid, tmdb_id]
+    );
+    res.json({ success: true, message: 'Movie removed from watchlist' });
+  } catch (err) {
+    console.error('Error removing from watchlist:', err);
+    res.status(500).json({ error: 'Failed to remove from watchlist' });
   }
 });
 

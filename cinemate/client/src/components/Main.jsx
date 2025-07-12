@@ -11,6 +11,8 @@ function Main() {
   const navigate = useNavigate();
   const [movie,setMovie]=useState(null);
   const [showDialog,setShowDialog]=useState(false);
+  const [showRecommendDialog, setShowRecommendDialog] = useState(false);
+
 
   const handleWatchClick= () =>{
     navigate('/watchlist');
@@ -21,6 +23,10 @@ function Main() {
   const handleStatsClick= () =>{
     navigate('/stats');
   };
+  const handleRecommendClick = () => {
+    setShowRecommendDialog(true);
+  };
+
 
 
   useEffect(() => {
@@ -57,13 +63,16 @@ function Main() {
 
   const payload = {
     uid,
-    tmdb_id: movie.id, // make sure TMDB ID is available
+    tmdb_id: movie.id,
     title: movie.title,
     poster: movie.poster,
     cast_list: movie.cast,
     director: movie.director,
     genre: movie.genre,
-    action: actionType
+    action: actionType,
+    release_date: movie.release_date, // must be in TMDB result
+    rating: movie.rating,             // from vote_average
+    language: movie.language          // original_language
   };
 
   try {
@@ -79,13 +88,13 @@ function Main() {
   } catch (err) {
     console.error('Error recording action:', err);
   }
-  };
+};
 
   if (!movie) return <div>Loading movie...</div>;
   return (
     <div className="main-page">
       <div className="top-buttons">
-        <button className="recommend-btn">Want a Recommendation?</button>
+        <button className="recommend-btn" onClick={handleRecommendClick}>Want a Recommendation?</button>
         <button className="watchlist-btn" onClick={handleWatchClick}>Watchlist</button>
         <button className="profile-btn" onClick={handleProfileClick}>Profile</button>
         <button className="stats-btn" onClick={handleStatsClick}>Stats</button>
@@ -133,6 +142,22 @@ function Main() {
               </div>
             </div>
           )}
+          {showRecommendDialog && (
+            <div className="dialog-backdrop">
+              <div className="dialog-box">
+                <p>Do you want a recommendation from your watchlist?</p>
+                <div className="dialog-buttons">
+                  <button onClick={() => {
+                    navigate(`/recommend/${uid}/watchlist`);
+                  }}>Yes</button>
+                  <button onClick={() => {
+                    navigate(`/recommend/${uid}/global`);
+                  }}>No</button>
+                </div>
+              </div>
+            </div>
+          )}
+
     
     </div>
 
