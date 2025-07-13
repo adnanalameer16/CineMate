@@ -90,7 +90,15 @@ function Main() {
   }
 };
 
-  if (!movie) return <div>Loading movie...</div>;
+  if (!movie) {
+    return (
+      <div className="loading">
+        <div className="spinner"></div>
+        <p>Loading movie...</p>
+      </div>
+    );
+  }
+
   return (
     <div className="main-page">
       <div className="top-buttons">

@@ -24,7 +24,15 @@ function RecommendationPage() {
     fetchRecommendation();
   }, [uid, source]);
 
-  if (!movie) return <div>Loading recommendation...</div>;
+  if (!movie) {
+    return (
+      <div className="loading">
+        <div className="spinner"></div>
+        <p>Loading recommendation...</p>
+      </div>
+    );
+  }
+
 
   return (
     <div className="recommendation-page">
