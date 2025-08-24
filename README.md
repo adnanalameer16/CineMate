@@ -1,4 +1,5 @@
 # 🎬 Cinemate
+[cinemate.com](https://cinemate-gules.vercel.app)
 
 **Cinemate** is a personalized movie recommendation platform that helps users discover films based on their individual taste profiles.
 Users can sign up, set their preferences, and receive daily movie suggestions tailored to their interests.
