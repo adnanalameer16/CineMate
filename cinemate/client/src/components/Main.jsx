@@ -112,9 +112,7 @@ function Main() {
   return (
     <div className="main-page">
       <nav className="main-nav">
-        <div className="nav-logo">
-          <img src="/src/assets/red_image2.jpg" alt="Cinemate Logo" style={{ height: '38px', verticalAlign: 'middle', borderRadius: '8px', marginRight: '10px' }} />
-        </div>
+        <div className="nav-logo">CINEMATE</div>
         <div className="nav-center">
           <button className="nav-btn" onClick={handleRecommendClick}>Recommend</button>
           <button className="nav-btn" onClick={handleWatchClick}>Watchlist</button>

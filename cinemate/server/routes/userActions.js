@@ -131,6 +131,7 @@ router.get('/stats', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch stats' });
   }
 });
+
 // DELETE /user/watchlist
 router.delete('/watchlist', async (req, res) => {
   const { uid, tmdb_id } = req.body;
@@ -145,6 +146,40 @@ router.delete('/watchlist', async (req, res) => {
   } catch (err) {
     console.error('Error removing from watchlist:', err);
     res.status(500).json({ error: 'Failed to remove from watchlist' });
+  }
+});
+
+// DELETE /user/liked
+router.delete('/liked', async (req, res) => {
+  const { uid, tmdb_id } = req.body;
+  if (!uid || !tmdb_id) return res.status(400).json({ error: 'uid and tmdb_id are required' });
+
+  try {
+    await pool.query(
+      `DELETE FROM user_movie_actions WHERE uid = $1 AND tmdb_id = $2 AND action = 'liked'`,
+      [uid, tmdb_id]
+    );
+    res.json({ success: true, message: 'Movie removed from liked' });
+  } catch (err) {
+    console.error('Error removing from liked:', err);
+    res.status(500).json({ error: 'Failed to remove from liked' });
+  }
+});
+
+// DELETE /user/disliked
+router.delete('/disliked', async (req, res) => {
+  const { uid, tmdb_id } = req.body;
+  if (!uid || !tmdb_id) return res.status(400).json({ error: 'uid and tmdb_id are required' });
+
+  try {
+    await pool.query(
+      `DELETE FROM user_movie_actions WHERE uid = $1 AND tmdb_id = $2 AND action = 'disliked'`,
+      [uid, tmdb_id]
+    );
+    res.json({ success: true, message: 'Movie removed from disliked' });
+  } catch (err) {
+    console.error('Error removing from disliked:', err);
+    res.status(500).json({ error: 'Failed to remove from disliked' });
   }
 });
 
