@@ -11,8 +11,8 @@ function RecommendationPage() {
     const fetchRecommendation = async () => {
       try {
         const endpoint = source === 'watchlist'
-          ? `http://localhost:5000/recommend/from-watchlist/${uid}`
-          : `http://localhost:5000/recommend/${uid}`;
+          ? `${import.meta.env.VITE_API_URL}/recommend/from-watchlist/${uid}`
+          : `${import.meta.env.VITE_API_URL}/recommend/${uid}`;
         
         const res = await fetch(endpoint);
         const data = await res.json();

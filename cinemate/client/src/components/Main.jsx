@@ -45,7 +45,7 @@ function Main() {
 
   const fetchRandomMovie = async () => {
     try {
-      const res = await fetch('http://localhost:5000/movie/next');
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/movie/next`);
       const data = await res.json();
       setMovie(data);
     } catch (err) {
@@ -86,7 +86,7 @@ function Main() {
   };
 
   try {
-    const res = await fetch('http://localhost:5000/user/add-action', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/add-action`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)

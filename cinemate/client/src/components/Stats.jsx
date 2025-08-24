@@ -10,7 +10,7 @@ function Stats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/user/stats?uid=${uid}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user/stats?uid=${uid}`);
         const data = await res.json();
         setStats(data);
       } catch (err) {

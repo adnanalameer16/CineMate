@@ -9,7 +9,7 @@ function Watchlist() {
 
   const handleRemove = async (tmdb_id) => {
   try {
-    const res = await fetch('http://localhost:5000/user/watchlist', {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/user/watchlist`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ function Watchlist() {
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/user/watchlist?uid=${uid}`);
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/user/watchlist?uid=${uid}`);
         const data = await res.json();
         setMovies(data);
       } catch (err) {

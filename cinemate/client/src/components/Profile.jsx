@@ -11,8 +11,8 @@ function Profile() {
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const resLiked = await fetch(`http://localhost:5000/user/liked?uid=${uid}`);
-        const resDisliked = await fetch(`http://localhost:5000/user/disliked?uid=${uid}`);
+        const resLiked = await fetch(`${import.meta.env.VITE_API_URL}/user/liked?uid=${uid}`);
+        const resDisliked = await fetch(`${import.meta.env.VITE_API_URL}/user/disliked?uid=${uid}`);
         const likedData = await resLiked.json();
         const dislikedData = await resDisliked.json();
 
