@@ -173,6 +173,19 @@
   max-width: 400px;
 }
 
+
+.dialog-close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--accent-secondary);
+  cursor: pointer;
+  z-index: 10;
+}
+
 .dialog-box h3 {
     margin-top: 0;
     color: var(--accent-secondary);

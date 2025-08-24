@@ -112,7 +112,9 @@ function Main() {
   return (
     <div className="main-page">
       <nav className="main-nav">
-        <div className="nav-logo">CINEMATE</div>
+        <div className="nav-logo">
+          <img src="/src/assets/red_image2.jpg" alt="Cinemate Logo" style={{ height: '38px', verticalAlign: 'middle', borderRadius: '8px', marginRight: '10px' }} />
+        </div>
         <div className="nav-center">
           <button className="nav-btn" onClick={handleRecommendClick}>Recommend</button>
           <button className="nav-btn" onClick={handleWatchClick}>Watchlist</button>
@@ -170,6 +172,7 @@ function Main() {
       {showRecommendDialog && (
         <div className="dialog-backdrop">
           <div className="dialog-box">
+            <button className="dialog-close-btn" onClick={() => setShowRecommendDialog(false)}>&times;</button>
             <h3>Get a Recommendation</h3>
             <p>Do you want a recommendation based on your watchlist or from all movies?</p>
             <div className="dialog-buttons">
