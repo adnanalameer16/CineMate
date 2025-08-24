@@ -10,26 +10,26 @@ function Landing() {
 
   return (
     <div className="landing">
-      <div className='main'>
-        <div>CINEMATE</div>
-        <div>YOUR DAILY DOSE OF CINEMA</div>
-        <button onClick={handleLoginClick}>Login</button>
-      </div>
+      <header className='main-header'>
+        <h1>CINEMATE</h1>
+        <p>YOUR DAILY DOSE OF CINEMA</p>
+        <button onClick={handleLoginClick}>Get Started</button>
+      </header>
 
-      <div className="features">
+      <main className="features">
         <div className="feature-box">
-          <div className="feature-title">Movie Recs</div>
-          <div className="feature-desc">Get personalized movie recommendations based on your taste!</div>
+          <h2 className="feature-title">Movie Recs</h2>
+          <p className="feature-desc">Get personalized movie recommendations based on your taste!</p>
         </div>
         <div className="feature-box">
-          <div className="feature-title">User Reviews</div>
-          <div className="feature-desc">Read and write honest reviews about movies you've seen.</div>
+          <h2 className="feature-title">Curate Lists</h2>
+          <p className="feature-desc">Create and share your own lists of favorite films.</p>
         </div>
         <div className="feature-box">
-          <div className="feature-title">Latest News</div>
-          <div className="feature-desc">Stay updated with the latest buzz in the movie world.</div>
+          <h2 className="feature-title">Track Films</h2>
+          <p className="feature-desc">Keep a diary of the films you've watched and rated.</p>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import './Main.css';
 import { useNavigate } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 
 function Main() {
@@ -25,6 +25,16 @@ function Main() {
   };
   const handleRecommendClick = () => {
     setShowRecommendDialog(true);
+  };
+
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      navigate('/login');
+    }).catch((error) => {
+      // An error happened.
+      console.error('Logout Error:', error);
+    });
   };
 
 
@@ -101,74 +111,75 @@ function Main() {
 
   return (
     <div className="main-page">
-      <div className="top-buttons">
-        <button className="recommend-btn" onClick={handleRecommendClick}>Want a Recommendation?</button>
-        <button className="watchlist-btn" onClick={handleWatchClick}>Watchlist</button>
-        <button className="profile-btn" onClick={handleProfileClick}>Profile</button>
-        <button className="stats-btn" onClick={handleStatsClick}>Stats</button>
-      </div>
-
-      <div className="movie-box">
-        <div className="movie-title">🎬 {movie.title}</div>
-        <div className='movie-box-components'>
-          <div className ="movie-box-left">
-            
-            <img src={movie.poster} alt="Movie Poster" className="movie-poster" />
-
-          </div>
-          <div className="movie-box-right">
-            <p className="movie-plot">{movie.description}</p>
-            <div className="movie-rating">⭐ IMDb Rating: {movie.rating}</div>
-            <div className="movie-info">Director: {movie.director}</div>
-            <div className='movie-info'>Cast: {movie.cast}</div>
-            <div className='movie-info'>Genre: {movie.genre}</div>
-            <div className="action-buttons">
-              <button className="like" onClick={handleLike}>❤️ Like</button>
-              <button className="not-seen" onClick={handleNotSeen}>❌ Haven’t Seen</button>
-              <button className="dislike" onClick={handleDislike}>💔 Dislike</button>
-            </div>
-          </div>
-          
+      <nav className="main-nav">
+        <div className="nav-logo">CINEMATE</div>
+        <div className="nav-center">
+          <button className="nav-btn" onClick={handleRecommendClick}>Recommend</button>
+          <button className="nav-btn" onClick={handleWatchClick}>Watchlist</button>
+          <button className="nav-btn" onClick={handleProfileClick}>Profile</button>
+          <button className="nav-btn" onClick={handleStatsClick}>Stats</button>
         </div>
-        
+        <div className="nav-right">
+          <button className="nav-btn" onClick={handleLogout}>Logout</button>
+        </div>
+      </nav>
+
+      <div className="movie-container">
+        <div className="movie-card-main">
+          <div className="movie-poster-container">
+            <img src={movie.poster} alt="Movie Poster" className="movie-poster" />
+          </div>
+          <div className="movie-details">
+            <h1 className="movie-title">{movie.title}</h1>
+            <p className="movie-plot">{movie.description}</p>
+            <div className="movie-meta">
+              <span><strong>Rating:</strong> {movie.rating}⭐</span>
+              <span><strong>Director:</strong> {movie.director}</span>
+              <span><strong>Genre:</strong> {movie.genre}</span>
+            </div>
+             <div className="movie-cast"><strong>Cast:</strong> {movie.cast}</div>
+            <div className="action-buttons">
+              <button className="action-btn like" onClick={handleLike}>Like ❤️</button>
+              <button className="action-btn not-seen" onClick={handleNotSeen}>Not Seen 🙈</button>
+              <button className="action-btn dislike" onClick={handleDislike}>Dislike 👎</button>
+            </div>
+          </div>
+        </div>
       </div>
-          {showDialog && (
-            <div className="dialog-backdrop">
-              <div className="dialog-box">
-                <p>Do you want to add this movie to your watchlist?</p>
-                <div className="dialog-buttons">
-                  <button onClick={() => {
-                    sendMovieAction('watchlist');
-                    setShowDialog(false);
-                    fetchRandomMovie();
-                  }}>Yes</button>
-                  <button onClick={() => {
-                    setShowDialog(false);
-                    fetchRandomMovie();
-                  }}>No</button>
-                </div>
-              </div>
-            </div>
-          )}
-          {showRecommendDialog && (
-            <div className="dialog-backdrop">
-              <div className="dialog-box">
-                <p>Do you want a recommendation from your watchlist?</p>
-                <div className="dialog-buttons">
-                  <button onClick={() => {
-                    navigate(`/recommend/${uid}/watchlist`);
-                  }}>Yes</button>
-                  <button onClick={() => {
-                    navigate(`/recommend/${uid}/global`);
-                  }}>No</button>
-                </div>
-              </div>
-            </div>
-          )}
 
-    
+      {showDialog && (
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <h3>Add to Watchlist?</h3>
+            <p>Do you want to add this movie to your watchlist to watch later?</p>
+            <div className="dialog-buttons">
+              <button className="dialog-btn-yes" onClick={() => {
+                sendMovieAction('watchlist');
+                setShowDialog(false);
+                fetchRandomMovie();
+              }}>Yes, Add It</button>
+              <button className="dialog-btn-no" onClick={() => {
+                setShowDialog(false);
+                fetchRandomMovie();
+              }}>No, Thanks</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showRecommendDialog && (
+        <div className="dialog-backdrop">
+          <div className="dialog-box">
+            <h3>Get a Recommendation</h3>
+            <p>Do you want a recommendation based on your watchlist or from all movies?</p>
+            <div className="dialog-buttons">
+              <button className="dialog-btn-yes" onClick={() => navigate(`/recommend/${uid}/watchlist`)}>From Watchlist</button>
+              <button className="dialog-btn-no" onClick={() => navigate(`/recommend/${uid}/global`)}>From All Movies</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
-
   );
 }
 

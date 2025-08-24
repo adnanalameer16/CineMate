@@ -42,21 +42,22 @@ function Watchlist() {
   }, [uid]);
 
   return (
-    <div className="watchlist-grid">
-      {movies.map((movie) => (
-      <div>
-        <div key={movie.tmdb_id} className="movie-card">
-          <img src={movie.poster} alt={movie.title} />
-          <div className="movie-overlay">
-            <h3>{movie.title}</h3>
-            <p><b>Director:</b> {movie.director}</p>
-            <p><b>Cast:</b> {movie.cast_list}</p>
-            <p><b>Genre:</b> {movie.genre}</p>
+    <div className="page-container">
+      <h1 className="page-title">My Watchlist</h1>
+      <div className="movie-grid">
+        {movies.map((movie) => (
+          <div key={movie.tmdb_id} className="movie-card-grid">
+            <img src={movie.poster} alt={movie.title} />
+            <div className="movie-overlay">
+              <h3>{movie.title}</h3>
+              <p><strong>Director:</strong> {movie.director}</p>
+              <p><strong>Cast:</strong> {movie.cast_list}</p>
+              <p><strong>Genre:</strong> {movie.genre}</p>
+              <button className="remove-btn" onClick={() => handleRemove(movie.tmdb_id)}>Remove</button>
+            </div>
           </div>
-        </div>
-      <button className="remove-btn" onClick={() => handleRemove(movie.tmdb_id)}>🗑 Remove</button>
-      </div> 
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

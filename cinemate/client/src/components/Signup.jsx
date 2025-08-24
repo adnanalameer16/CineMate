@@ -40,26 +40,35 @@ function Signup() {
 
 
   return (
-    <div className="login-container">
-      <h2>Create a Cinemate Account</h2>
-      <form className="login-form" onSubmit={handleSignup}>
-        <label htmlFor="username">Username</label>
-        <input type="text" id="username" placeholder="Choose an email" value={email}
-        onChange={(e) => setEmail(e.target.value)} required />
+    <div className="auth-container">
+      <div className="auth-form-wrapper">
+        <h2>Create a Cinemate Account</h2>
+        <form className="auth-form" onSubmit={handleSignup}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" placeholder="Choose an email" value={email}
+            onChange={(e) => setEmail(e.target.value)} required />
+          </div>
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder="Create a password" value={password}
-        onChange={(e) => setPassword(e.target.value)}required />
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Create a password" value={password}
+            onChange={(e) => setPassword(e.target.value)}required />
+          </div>
 
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input type="password" id="confirmPassword" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}required />
-        {error && <p className="error-message">{error}</p>}
+          <div className="input-group">
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword" placeholder="Confirm your password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}required />
+          </div>
+          
+          {error && <p className="error-message">{error}</p>}
 
-        <button type="submit">Sign Up</button>
-      </form>
-      <p className="signup-link">
-        Already have an account? <a onClick={() => navigate('/login')}>Login here</a>
-      </p>
+          <button type="submit" className="auth-button">Sign Up</button>
+        </form>
+        <p className="switch-auth-link">
+          Already have an account? <a onClick={() => navigate('/login')}>Login here</a>
+        </p>
+      </div>
     </div>
   );
 }

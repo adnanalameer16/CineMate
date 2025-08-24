@@ -27,36 +27,42 @@ function Profile() {
   }, [uid]);
 
   return (
-    <div className="profile-page">
-      <h2>❤️ Liked Movies</h2>
-      <div className="watchlist-grid">
-        {liked.map((movie) => (
-          <div key={movie.tmdb_id} className="movie-card">
-            <img src={movie.poster} alt={movie.title} />
-            <div className="movie-overlay">
-              <h3>{movie.title}</h3>
-              <p><b>Director:</b> {movie.director}</p>
-              <p><b>Cast:</b> {movie.cast_list}</p>
-              <p><b>Genre:</b> {movie.genre}</p>
+    <div className="page-container">
+      <h1 className="page-title">My Profile</h1>
+      
+      <section className="profile-section">
+        <h2>Liked Movies</h2>
+        <div className="movie-grid">
+          {liked.map((movie) => (
+            <div key={movie.tmdb_id} className="movie-card-grid">
+              <img src={movie.poster} alt={movie.title} />
+              <div className="movie-overlay">
+                <h3>{movie.title}</h3>
+                <p><strong>Director:</strong> {movie.director}</p>
+                <p><strong>Cast:</strong> {movie.cast_list}</p>
+                <p><strong>Genre:</strong> {movie.genre}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
 
-      <h2>💔 Disliked Movies</h2>
-      <div className="watchlist-grid">
-        {disliked.map((movie) => (
-          <div key={movie.tmdb_id} className="movie-card">
-            <img src={movie.poster} alt={movie.title} />
-            <div className="movie-overlay">
-              <h3>{movie.title}</h3>
-              <p><b>Director:</b> {movie.director}</p>
-              <p><b>Cast:</b> {movie.cast_list}</p>
-              <p><b>Genre:</b> {movie.genre}</p>
+      <section className="profile-section">
+        <h2>Disliked Movies</h2>
+        <div className="movie-grid">
+          {disliked.map((movie) => (
+            <div key={movie.tmdb_id} className="movie-card-grid">
+              <img src={movie.poster} alt={movie.title} />
+              <div className="movie-overlay">
+                <h3>{movie.title}</h3>
+                <p><strong>Director:</strong> {movie.director}</p>
+                <p><strong>Cast:</strong> {movie.cast_list}</p>
+                <p><strong>Genre:</strong> {movie.genre}</p>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

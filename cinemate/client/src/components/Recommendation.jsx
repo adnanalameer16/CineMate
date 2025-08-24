@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import './RecommendationPage.css';
+import './Main.css';
 
 function RecommendationPage() {
   const { uid, source } = useParams();
@@ -35,24 +36,27 @@ function RecommendationPage() {
 
 
   return (
-    <div className="recommendation-page">
-      <div className="movie-box">
-        <div className="movie-title">🎯 Recommended for You: {movie.title}</div>
-        <div className="movie-box-components">
-          <div className="movie-box-left">
+    <div className="page-container recommendation-page">
+      <h1 className="page-title">Recommended For You</h1>
+      <div className="movie-card-main">
+          <div className="movie-poster-container">
             <img src={movie.poster} alt="Movie Poster" className="movie-poster" />
           </div>
-          <div className="movie-box-right">
+          <div className="movie-details">
+            <h1 className="movie-title">{movie.title}</h1>
             <p className="movie-plot">{movie.description}</p>
-            <div className="movie-rating">⭐ IMDb Rating: {movie.rating}</div>
-            <div className="movie-info">Director: {movie.director}</div>
-            <div className="movie-info">Cast: {movie.cast}</div>
-            <div className="movie-info">Genre: {movie.genre}</div>
-            <div className="movie-info">📅 Release Date: {movie.release_date}</div>
-            <div className="movie-info">🌐 Language: {movie.language}</div>
+            <div className="movie-meta">
+              <span><strong>Rating: </strong>{movie.rating}</span>
+              <span><strong>Director: </strong>{movie.director}</span>
+              <span><strong>Cast: </strong>{movie.genre}</span>
+            </div>
+             <div className="movie-cast"><strong>Cast:</strong> {movie.cast}</div>
+             <div className="movie-info-extra">
+                <span><strong>Release:</strong> {movie.release_date}</span>
+                <span><strong>Language:</strong> {movie.language}</span>
+             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

@@ -39,21 +39,27 @@ function Login() {
   };
 
   return (
-    <div className="login-container">
-      <h2>Login to Cinemate</h2>
-      <form className="login-form" onSubmit={handleLogin}>
-        <label htmlFor="email">Username</label>
-        <input type="email" id="username" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}required />
+    <div className="auth-container">
+      <div className="auth-form-wrapper">
+        <h2>Login to Cinemate</h2>
+        <form className="auth-form" onSubmit={handleLogin}>
+          <div className="input-group">
+            <label htmlFor="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          </div>
 
-        <label htmlFor="password">Password</label>
-        <input type="password" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)}required />
-        {error && <p className="error-message">{error}</p>}
-        <button type="submit">Login</button>
+          <div className="input-group">
+            <label htmlFor="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          </div>
 
-      </form>
-      <p className="signup-link">
-        Don't have an account? <a onClick={() => navigate('/signup')}>Create one</a>
-      </p>
+          {error && <p className="error-message">{error}</p>}
+          <button type="submit" className="auth-button">Login</button>
+        </form>
+        <p className="switch-auth-link">
+          Don't have an account? <a onClick={() => navigate('/signup')}>Create one</a>
+        </p>
+      </div>
     </div>
   );
 }

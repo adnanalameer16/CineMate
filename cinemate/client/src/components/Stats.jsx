@@ -24,16 +24,36 @@ function Stats() {
   if (!stats) return <div>Loading stats...</div>;
 
   return (
-    <div className="stats-container">
-      <h2>📊 Your Movie Stats</h2>
-      <ul>
-        <li>❤️ Total Liked: {stats.total_liked}</li>
-        <li>💔 Total Disliked: {stats.total_disliked}</li>
-        <li>📌 Watchlist Count: {stats.total_watchlist}</li>
-        <li>🎥 Total Watched: {stats.total_watched}</li>
-        <li>🕐 First Liked Movie: {stats.first_liked?.title || 'N/A'} ({stats.first_liked?.timestamp?.slice(0, 10) || 'N/A'})</li>
-        <li>🕐 Last Liked Movie: {stats.last_liked?.title || 'N/A'} ({stats.last_liked?.timestamp?.slice(0, 10) || 'N/A'})</li>
-      </ul>
+    <div className="page-container">
+      <h1 className="page-title">Your Movie Stats</h1>
+      <div className="stats-grid">
+        <div className="stat-card">
+          <h3>Total Liked</h3>
+          <p>{stats.total_liked}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Total Disliked</h3>
+          <p>{stats.total_disliked}</p>
+        </div>
+        <div className="stat-card">
+          <h3>In Watchlist</h3>
+          <p>{stats.total_watchlist}</p>
+        </div>
+        <div className="stat-card">
+          <h3>Total Watched</h3>
+          <p>{stats.total_watched}</p>
+        </div>
+        <div className="stat-card large">
+          <h3>First Liked Movie</h3>
+          <p>{stats.first_liked?.title || 'N/A'}</p>
+          <span>{stats.first_liked?.timestamp?.slice(0, 10) || ''}</span>
+        </div>
+        <div className="stat-card large">
+          <h3>Last Liked Movie</h3>
+          <p>{stats.last_liked?.title || 'N/A'}</p>
+          <span>{stats.last_liked?.timestamp?.slice(0, 10) || ''}</span>
+        </div>
+      </div>
     </div>
   );
 }
