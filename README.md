@@ -1,5 +1,5 @@
 # 🎬 Cinemate
-[cinemate.com](https://cinemate-gules.vercel.app)
+[cinemate.com](https://cinemate-gules.vercel.app) Note:- This might not start running immediately as I am using the free version of render to host the application
 
 To Login use:
 
