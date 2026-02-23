@@ -1,5 +1,4 @@
 pipeline {
-    // Run on the main server directly
     agent any
 
     environment {
@@ -13,14 +12,16 @@ pipeline {
                 checkout scm
             }
         }
+
         stage('Download SonarScanner') {
             steps {
                 sh '''
-                # Download the free Sonar scanner tool directly from SonarSource
-                wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+                # Use 'curl' to download instead of wget
+                curl -sSLo sonar-scanner-cli.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
                 
-                # Unzip the downloaded file
-                unzip -q -o sonar-scanner-cli-5.0.1.3006-linux.zip
+                # Use Java's built-in 'jar' command to extract the zip file, 
+                # bypassing the need for a separate unzip tool!
+                jar xf sonar-scanner-cli.zip
                 '''
             }
         }
@@ -29,7 +30,7 @@ pipeline {
             steps {
                 withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
                     sh '''
-                    # THIS LINE IS CRITICAL: It tells Jenkins where the scanner is
+                    # Tell Jenkins exactly where the extracted scanner is
                     export PATH=$WORKSPACE/sonar-scanner-5.0.1.3006-linux/bin:$PATH
 
                     # Run the scan!
