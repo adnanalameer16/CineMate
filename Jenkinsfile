@@ -1,9 +1,5 @@
 pipeline {
-    agent {
-        docker { 
-            image 'sonarsource/sonar-scanner-cli:latest' 
-        }
-    }
+    agent any
 
     environment {
         SONAR_HOST_URL = 'http://host.docker.internal:9000' 
